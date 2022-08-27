@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private Slider _slider;
+
     private float _maxValue = 100f;
     private float _currentValue;
     private float _changeStep = 0.5f;
