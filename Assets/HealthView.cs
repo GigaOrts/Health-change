@@ -19,15 +19,15 @@ public class HealthView : MonoBehaviour
 
     private void OnEnable()
     {
-        _player.ButtonClicked += OnButtonClicked;
+        _player.HealthChanged += OnHealthChanged;
     }
 
     private void OnDisable()
     {
-        _player.ButtonClicked -= OnButtonClicked;
+        _player.HealthChanged -= OnHealthChanged;
     }
 
-    private void OnButtonClicked(float healthChangingValue)
+    private void OnHealthChanged(float healthChangingValue)
     {
         if (_coroutine != null)
             StopCoroutine(_coroutine);
@@ -35,11 +35,13 @@ public class HealthView : MonoBehaviour
         _coroutine = StartCoroutine(Change(healthChangingValue));
     }
 
-    private IEnumerator Change(float currentHealth)
+    private IEnumerator Change(float currentValue)
     {
-        while (_slider.value != (currentHealth / _maxValue))
+        float healthPercent = currentValue / _maxValue;
+
+        while (_slider.value != healthPercent)
         {
-            _slider.value = Mathf.MoveTowards(_slider.value, currentHealth / _maxValue, _changeStep * Time.deltaTime);
+            _slider.value = Mathf.MoveTowards(_slider.value, healthPercent, _changeStep * Time.deltaTime);
             yield return null;
         }
     }

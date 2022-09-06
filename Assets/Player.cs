@@ -10,20 +10,20 @@ public class Player : MonoBehaviour
     public float MinHealthValue { get; private set; } = 0f;
     public float CurrentHealthValue { get; private set; }
 
-    public event Action<float> ButtonClicked;
+    public event Action<float> HealthChanged;
 
     private void Awake()
     {
         CurrentHealthValue = MaxHealthValue;
     }
 
-    public void Heal() => ButtonClicked?.Invoke(CalculateCurrentHealth(_incomingHealing));
+    public void Heal() => HealthChanged?.Invoke(CalculateCurrentHealth(_incomingHealing));
 
-    public void ApplyDamage() => ButtonClicked?.Invoke(CalculateCurrentHealth(_incomingDamage));
+    public void ApplyDamage() => HealthChanged?.Invoke(CalculateCurrentHealth(_incomingDamage));
 
     private float CalculateCurrentHealth(float healthChangingValue)
     {
         CurrentHealthValue += healthChangingValue;
-        return Mathf.Clamp(CurrentHealthValue, MinHealthValue, MaxHealthValue);
+        return CurrentHealthValue = Mathf.Clamp(CurrentHealthValue, MinHealthValue, MaxHealthValue);
     }
 }
