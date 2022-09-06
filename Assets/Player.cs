@@ -1,28 +1,29 @@
-using UnityEngine;
 using System;
+using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private float _heal = 10f;
-    private float _appliedDamage = -10f;
+    private float _incomingHealing = 10f;
+    private float _incomingDamage = -10f;
 
-    public float HealthMaxValue { get; private set; } = 100f;
-    public float HealthCurrentValue { get; private set; }
+    public float MaxHealthValue { get; private set; } = 100f;
+    public float MinHealthValue { get; private set; } = 0f;
+    public float CurrentHealthValue { get; private set; }
 
     public event Action<float> ButtonClicked;
 
     private void Awake()
     {
-        HealthCurrentValue = HealthMaxValue;
+        CurrentHealthValue = MaxHealthValue;
     }
 
-    public void Heal()
-    {
-        ButtonClicked?.Invoke(_heal);
-    }
+    public void Heal() => ButtonClicked?.Invoke(CalculateCurrentHealth(_incomingHealing));
 
-    public void ApplyDamage()
+    public void ApplyDamage() => ButtonClicked?.Invoke(CalculateCurrentHealth(_incomingDamage));
+
+    private float CalculateCurrentHealth(float healthChangingValue)
     {
-        ButtonClicked?.Invoke(_appliedDamage);
+        CurrentHealthValue += healthChangingValue;
+        return Mathf.Clamp(CurrentHealthValue, MinHealthValue, MaxHealthValue);
     }
 }
