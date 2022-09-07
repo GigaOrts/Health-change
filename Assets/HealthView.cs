@@ -7,14 +7,14 @@ public class HealthView : MonoBehaviour
     [SerializeField] private Slider _slider;
     [SerializeField] private Player _player;
 
-    private float _maxValue;
+    private float _maxSliderValue;
     private float _changeStep = 0.5f;
 
     private Coroutine _coroutine;
 
     private void Awake()
     {
-        _maxValue = _player.MaxHealthValue;
+        _maxSliderValue = _player.MaxHealthValue;
     }
 
     private void OnEnable()
@@ -37,7 +37,7 @@ public class HealthView : MonoBehaviour
 
     private IEnumerator Change(float currentValue)
     {
-        float healthPercent = currentValue / _maxValue;
+        float healthPercent = currentValue / _maxSliderValue;
 
         while (_slider.value != healthPercent)
         {
